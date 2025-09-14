@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Esiyla İçin Özel Mesaj</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Roboto', sans-serif; overflow-x:hidden; scroll-behavior:smooth; background:#1a1a1a; color:#fff; }
+
+/* Bölümler */
+section {
+  min-height:120vh; /* Uzun mesajlar için */
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:60px 40px;
+  position:relative;
+  opacity:0;
+  transform: translateY(100px);
+  transition: all 1.2s ease;
+}
+section.visible { opacity:1; transform:translateY(0); }
+
+/* Başlıklar */
+h1 { font-family:'Playfair Display', serif; font-size:3em; margin-bottom:20px; color:#f5f5f5; line-height:1.2; }
+
+/* Metin */
+p { font-size:1.4em; line-height:2em; max-width:900px; margin-bottom:40px; }
+
+/* Fade efekt */
+.fadeText { opacity:0; animation:fadeIn 2s forwards; }
+@keyframes fadeIn { to {opacity:1;} }
+
+/* Evet/Hayır kutuları */
+.btn {
+  padding:20px 45px;
+  font-size:1.3em;
+  cursor:pointer;
+  border:none;
+  border-radius:25px;
+  margin:15px;
+  transition:0.4s;
+  font-weight:700;
+  box-shadow:0 6px 25px rgba(0,0,0,0.3);
+}
+.btn.yes { background:#ff6f61; color:#fff; }
+.btn.yes:hover { transform:scale(1.05); background:#ff3b3b; }
+.btn.no { background:#555; color:#fff; }
+.btn.no:hover { transform:scale(1.05); background:#777; }
+
+/* Emoji animasyonları */
+.emoji { position:absolute; font-size:2.5em; pointer-events:none; animation: floatUp 2s forwards; }
+@keyframes floatUp {0%{opacity:1; transform:translateY(0) scale(1);}100%{opacity:0; transform:translateY(-220px) scale(1.6);}}
+
+/* Shake animasyonu */
+@keyframes shake {0%,100%{transform:translateY(0);}25%{transform:translateY(-10px);}50%{transform:translateY(10px);}75%{transform:translateY(-10px);}}
+.shake { animation: shake 0.5s infinite; }
+</style>
+</head>
+<body>
+
+<!-- Bölüm 1 -->
+<section id="sec1">
+  <h1>Merhaba Esiyla! 👋</h1>
+  <p class="fadeText" style="animation-delay:0.5s;">
+    Seni tanıdığım günden beri hayatım renkli ve anlamlı. Ayrı olduğumuz zamanlarda bile, aklım hep sendeydi.  
+    Seninle yaşadığım her anı, her sohbeti özlüyorum. 🌟
+  </p>
+</section>
+
+<!-- Bölüm 2 -->
+<section id="sec2">
+  <h1>Konuşamadığımız Günler</h1>
+  <p class="fadeText" style="animation-delay:0.5s;">
+    Ayrıyken sana birkaç kez yazdım ama cevap gelmedi. O an hissettiğim boşluk ve merak, bugün bile aklıma geliyor.  
+    Seninle yeniden konuşmaya başladığımızda, kalbim yeniden umutla doldu. 💖
+  </p>
+</section>
+
+<!-- Bölüm 3 -->
+<section id="sec3">
+  <h1>Geçmişi Düşünmek</h1>
+  <p class="fadeText" style="animation-delay:0.5s;">
+    Aramızda yaşananları düşündükçe, hatalarımızdan ders aldım ve senin değerini daha iyi anladım.  
+    Seninle geleceğe dair hayaller kurmak istiyorum, birlikte güzel anılar biriktirmek… 🌸✨
+  </p>
+</section>
+
+<!-- Bölüm 4 -->
+<section id="sec4">
+  <h1>Esiyla, benimle çıkarmısın? 💌</h1>
+  <div>
+    <button class="btn yes" onclick="yesFun()">Evet</button>
+    <button class="btn no" onclick="noFun()">Hayır</button>
+  </div>
+</section>
+
+<!-- Bölüm 5 -->
+<section id="sec5">
+  <h1 id="finalMsg">Teşekkürler!</h1>
+</section>
+
+<script>
+// Scroll ile bölümleri görünür yap
+const sections = document.querySelectorAll('section');
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY + window.innerHeight/1.2;
+  sections.forEach(sec => {
+    if(sec.offsetTop < scrollY){
+      sec.classList.add('visible');
+    }
+  });
+});
+
+// Evet butonu
+function yesFun(){
+  for(let i=0;i<80;i++){
+    const span=document.createElement('span');
+    span.className='emoji';
+    span.innerText=['❤️','💐','🌸','🌹','✨'][Math.floor(Math.random()*5)];
+    span.style.left=Math.random()*90+'%';
+    span.style.top=Math.random()*80+'%';
+    span.style.fontSize=(20+Math.random()*35)+'px';
+    document.body.appendChild(span);
+    setTimeout(()=>{ span.remove(); },2500);
+  }
+  document.getElementById('finalMsg').innerText="Harika! 💕 Seninle hayatımı paylaşmak için sabırsızlanıyorum…";
+  const nextSection = document.getElementById('sec5');
+  nextSection.classList.add('visible');
+  window.scrollTo({top:nextSection.offsetTop, behavior:'smooth'});
+}
+
+// Hayır butonu
+function noFun(){
+  const sec = document.getElementById('sec4');
+  sec.classList.add('shake');
+  setTimeout(()=>{ sec.classList.remove('shake'); },1000);
+  alert("BU CEVAP KABUL EDİLMEDİ 😅");
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
+
+</body>
+</html>
